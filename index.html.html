@@ -1,0 +1,849 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAME CENTER | فروشگاه بازی</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap');
+
+:root {
+    --bg:#0b0d16;
+    --header:#151827;
+    --card:#191d2e;
+    --text:#fff;
+    --muted:#b9bbce;
+    --accent:#875cf6;
+    --border:#30344b;
+    --search:#252a3c;
+}
+
+body.light {
+    --bg:#f2f2fa;
+    --header:#fff;
+    --card:#fff;
+    --text:#19192b;
+    --muted:#66667a;
+    --accent:#6844db;
+    --border:#dedeee;
+    --search:#ededf7;
+}
+
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html {scroll-behavior:smooth;}
+
+body {
+    font-family:'Vazirmatn',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:.3s;
+}
+
+button,input {font-family:inherit;}
+
+header {
+    height:85px;
+    background:var(--header);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 5%;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo {
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--accent);
+    font-weight:800;
+    font-size:22px;
+    white-space:nowrap;
+}
+
+.logo span {font-size:30px;}
+
+.header-actions {
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.header-actions button {
+    background:none;
+    border:none;
+    color:var(--text);
+    font-size:23px;
+    cursor:pointer;
+}
+
+.header-actions button:hover {color:var(--accent);}
+
+.cart-count {
+    background:var(--accent);
+    color:white;
+    font-size:11px;
+    padding:2px 6px;
+    border-radius:50%;
+}
+
+.search-area {
+    background:var(--header);
+    padding:20px 6%;
+}
+
+.search-box {
+    max-width:750px;
+    margin:auto;
+    background:var(--search);
+    border:1px solid var(--border);
+    border-radius:30px;
+    padding:13px 20px;
+    display:flex;
+    gap:12px;
+}
+
+.search-box input {
+    width:100%;
+    background:none;
+    border:none;
+    outline:none;
+    color:var(--text);
+    font-size:15px;
+}
+
+/* MENU */
+
+.overlay {
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#0009;
+    z-index:19;
+}
+
+.overlay.open {display:block;}
+
+.drawer {
+    position:fixed;
+    top:0;
+    right:-330px;
+    width:300px;
+    height:100%;
+    padding:25px;
+    background:var(--header);
+    z-index:20;
+    transition:.3s;
+    overflow-y:auto;
+}
+
+.drawer.open {right:0;}
+
+.drawer h2 {
+    color:var(--accent);
+    margin:35px 0 25px;
+}
+
+.drawer a {
+    display:block;
+    padding:17px 5px;
+    text-decoration:none;
+    color:var(--text);
+    border-bottom:1px solid var(--border);
+}
+
+.drawer a:hover {color:var(--accent);}
+
+.close {
+    float:left;
+    background:none;
+    color:var(--text);
+    border:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* HERO */
+
+.hero {
+    margin:30px 5%;
+    padding:55px 35px;
+    border-radius:20px;
+    background:linear-gradient(110deg,#171c3b,#34215f,#111629);
+    border:1px solid #6949b8;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.hero h1 {
+    font-size:32px;
+    color:white;
+    margin-bottom:15px;
+}
+
+.hero p {
+    color:#d5d0ec;
+    line-height:2;
+    margin-bottom:20px;
+}
+
+.hero-art {
+    font-size:100px;
+    filter:drop-shadow(0 0 25px #895cff);
+}
+
+.main-btn {
+    display:inline-block;
+    padding:11px 22px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+    text-decoration:none;
+}
+
+/* SECTIONS */
+
+section {
+    padding:30px 5%;
+    scroll-margin-top:100px;
+}
+
+.section-title {
+    font-size:23px;
+    margin-bottom:22px;
+}
+
+/* SLIDER */
+
+.slider-container {
+    position:relative;
+    overflow:hidden;
+}
+
+.slider-track {
+    display:flex;
+    gap:18px;
+    transition:transform .6s ease;
+    direction:rtl;
+}
+
+.slide-card {
+    flex:0 0 calc((100% - 36px) / 3);
+    min-width:0;
+    overflow:hidden;
+    border-radius:15px;
+    background:var(--card);
+    border:1px solid var(--border);
+}
+
+.slide-card img {
+    width:100%;
+    height:190px;
+    object-fit:cover;
+    display:block;
+}
+
+.slide-info {padding:15px;}
+
+.slide-info h3 {margin-bottom:8px;}
+
+.slide-info p {
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.slider-controls {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    margin-top:20px;
+}
+
+.slider-controls button {
+    background:var(--card);
+    color:var(--text);
+    border:1px solid var(--border);
+    padding:9px 17px;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+.slider-controls button:hover {
+    background:var(--accent);
+    color:white;
+}
+
+.dots {
+    display:flex;
+    gap:7px;
+}
+
+.dot {
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#777;
+    cursor:pointer;
+}
+
+.dot.active {background:var(--accent);}
+
+/* PRODUCT CARDS */
+
+.products {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.product {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.product:hover {
+    transform:translateY(-5px);
+    border-color:var(--accent);
+}
+
+.product img {
+    width:100%;
+    height:190px;
+    object-fit:cover;
+}
+
+.product-info {padding:17px;}
+
+.product-info h3 {margin-bottom:10px;}
+
+.product-info p {
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:12px;
+}
+
+.price {
+    color:var(--accent)!important;
+    font-weight:bold;
+}
+
+footer {
+    background:var(--header);
+    border-top:1px solid var(--border);
+    margin-top:50px;
+    padding:40px 6%;
+    line-height:2.5;
+}
+
+footer h2 {color:var(--accent);}
+footer p {color:var(--muted);}
+
+/* MODALS */
+
+.modal {
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000b;
+    z-index:30;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.modal.show {display:flex;}
+
+.modal-content {
+    background:var(--header);
+    color:var(--text);
+    padding:25px;
+    border-radius:15px;
+    width:100%;
+    max-width:420px;
+    border:1px solid var(--border);
+}
+
+.modal-content input {
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    background:var(--search);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:8px;
+}
+
+.cart-row {
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.cart-row button {
+    margin-right:10px;
+    color:#ff7777;
+    background:none;
+    border:none;
+    cursor:pointer;
+}
+
+@media(max-width:750px) {
+    .products {grid-template-columns:repeat(2,1fr);}
+    .slide-card {flex:0 0 calc((100% - 18px) / 2);}
+    .hero h1 {font-size:25px;}
+    .hero-art {font-size:65px;}
+}
+
+@media(max-width:480px) {
+    .products {grid-template-columns:1fr;}
+    .slide-card {flex:0 0 85%;}
+    .hero {padding:35px 20px;}
+    .hero-art {display:none;}
+    .logo {font-size:14px;gap:3px;}
+    .logo span {font-size:22px;}
+    .header-actions {gap:7px;}
+    .header-actions button {font-size:20px;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-actions">
+        <button onclick="toggleMenu()" title="منو">☰</button>
+    </div>
+
+    <div class="logo">
+        <span>🎮</span>
+        GAME CENTER
+    </div>
+
+    <div class="header-actions">
+        <button onclick="openModal('account')" title="حساب کاربری">👤</button>
+        <button onclick="toggleTheme()" id="themeButton" title="حالت روشن و تاریک">🌙</button>
+        <button onclick="openModal('cart')" title="سبد خرید">
+            🛒 <span class="cart-count" id="cartCount">0</span>
+        </button>
+    </div>
+
+</header>
+
+<div class="search-area">
+    <div class="search-box">
+        <span>🔍</span>
+        <input id="searchInput" type="text"
+        placeholder="جستجوی بازی و محصولات..."
+        oninput="searchProducts()">
+    </div>
+</div>
+
+<!-- SIDE MENU -->
+
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<aside class="drawer" id="drawer">
+    <button class="close" onclick="toggleMenu()">×</button>
+
+    <h2>🎮 GAME CENTER</h2>
+
+    <a href="#console" onclick="toggleMenu()">🎮 بازی‌های کنسول</a>
+    <a href="#computer" onclick="toggleMenu()">💻 بازی‌های کامپیوتر</a>
+    <a href="#steam" onclick="toggleMenu()">👾 خرید / فروش اکانت استیم</a>
+    <a href="#" onclick="toggleMenu();openModal('cart')">🛒 سبد خرید / تسویه حساب</a>
+    <a href="#discounts" onclick="toggleMenu()">🔥 تخفیفات</a>
+    <a href="#contact" onclick="toggleMenu()">📞 ارتباط با ما</a>
+</aside>
+
+<!-- HERO -->
+
+<div class="hero">
+    <div>
+        <h1>به دنیای GAME CENTER خوش آمدید!</h1>
+        <p>بازی مورد علاقه‌ات رو پیدا کن و وارد دنیای گیمینگ شو!</p>
+        <a href="#featured" class="main-btn">مشاهده بازی‌ها</a>
+    </div>
+    <div class="hero-art">🎮</div>
+</div>
+
+<!-- AUTOMATIC SLIDER -->
+
+<section id="featured">
+
+    <h2 class="section-title">🔥 بازی‌های پیشنهادی</h2>
+
+    <div class="slider-container" id="sliderContainer">
+
+        <div class="slider-track" id="sliderTrack">
+
+            <article class="slide-card">
+                <img src="https://exo.ir/mag/%D8%A8%D9%87%D8%AA%D8%B1%DB%8C%D9%86-%D8%A8%D8%A7%D8%B2%DB%8C-%D9%87%D8%A7%DB%8C-%D8%A7%DA%A9%D8%B4%D9%86-%D9%85%D8%A7%D8%AC%D8%B1%D8%A7%D8%AC%D9%88%DB%8C%DB%8C-%D9%86%D8%B3%D9%84-%D9%87%D8%B4%D8%AA%D9%85" alt="بازی اکشن">
+                <div class="slide-info">
+                    <h3>بازی اکشن نمونه</h3>
+                    <p>پیشنهاد ویژه گیم سنتر</p>
+                    <a href="#console" class="main-btn">مشاهده</a>
+                </div>
+            </article>
+
+            <article class="slide-card">
+                <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=700" alt="بازی کامپیوتر">
+                <div class="slide-info">
+                    <h3>بازی ماجراجویی</h3>
+                    <p>دنیایی پر از هیجان</p>
+                    <a href="#computer" class="main-btn">مشاهده</a>
+                </div>
+            </article>
+
+            <article class="slide-card">
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=700" alt="بازی گیمینگ">
+                <div class="slide-info">
+                    <h3>بازی رقابتی</h3>
+                    <p>تجربه یک رقابت جذاب</p>
+                    <a href="#computer" class="main-btn">مشاهده</a>
+                </div>
+            </article>
+
+            <article class="slide-card">
+                <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=700" alt="گیمینگ">
+                <div class="slide-info">
+                    <h3>دنیای بازی‌های جدید</h3>
+                    <p>محصولات جدید فروشگاه</p>
+                    <a href="#steam" class="main-btn">مشاهده</a>
+                </div>
+            </article>
+
+            <article class="slide-card">
+                <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=700" alt="کنسول">
+                <div class="slide-info">
+                    <h3>محصولات کنسولی</h3>
+                    <p>برای طرفداران کنسول</p>
+                    <a href="#console" class="main-btn">مشاهده</a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <div class="slider-controls">
+        <button onclick="moveSlide(1)">❯</button>
+        <div class="dots" id="dots"></div>
+        <button onclick="moveSlide(-1)">❮</button>
+    </div>
+
+</section>
+
+<!-- CONSOLE PRODUCTS -->
+
+<section id="console">
+    <h2 class="section-title">🎮 بازی‌های کنسول</h2>
+
+    <div class="products">
+
+        <article class="product searchable">
+            <img src="https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=600" alt="بازی کنسولی">
+            <div class="product-info">
+                <h3>بازی کنسولی نمونه ۱</h3>
+                <p class="price">۱,۵۰۰,۰۰۰ تومان</p>
+                <button class="main-btn" onclick="addCart('بازی کنسولی نمونه ۱',1500000)">افزودن به سبد خرید</button>
+            </div>
+        </article>
+
+        <article class="product searchable">
+            <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=600" alt="بازی کنسولی">
+            <div class="product-info">
+                <h3>بازی کنسولی نمونه ۲</h3>
+                <p class="price">۲,۰۰۰,۰۰۰ تومان</p>
+                <button class="main-btn" onclick="addCart('بازی کنسولی نمونه ۲',2000000)">افزودن به سبد خرید</button>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+<!-- COMPUTER -->
+
+<section id="computer">
+    <h2 class="section-title">💻 بازی‌های کامپیوتر</h2>
+
+    <div class="products">
+
+        <article class="product searchable">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600" alt="بازی کامپیوتری">
+            <div class="product-info">
+                <h3>بازی کامپیوتری نمونه ۱</h3>
+                <p class="price">۹۰۰,۰۰۰ تومان</p>
+                <button class="main-btn" onclick="addCart('بازی کامپیوتری نمونه ۱',900000)">افزودن به سبد خرید</button>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+<!-- STEAM -->
+
+<section id="steam">
+    <h2 class="section-title">👾 اکانت استیم</h2>
+
+    <div class="products">
+
+        <article class="product searchable">
+            <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=600" alt="گیمینگ">
+            <div class="product-info">
+                <h3>اکانت استیم نمونه</h3>
+                <p>قیمت توافقی</p>
+                <button class="main-btn" onclick="openModal('account')">درخواست اطلاعات</button>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+<!-- DISCOUNTS -->
+
+<section id="discounts">
+    <h2 class="section-title">🔥 تخفیفات ویژه</h2>
+    <div class="product" style="padding:25px">
+        <p>به‌زودی محصولات تخفیف‌دار در این قسمت قرار می‌گیرند.</p>
+    </div>
+</section>
+
+<footer id="contact">
+    <h2>🎮 GAME CENTER</h2>
+    <p>فروشگاه محصولات گیمینگ</p>
+    <p>📍 آدرس</p>
+    <p>📞 تماس </p>
+    <p>تمامی حقوق محفوظ است.</p>
+</footer>
+
+<!-- ACCOUNT MODAL -->
+
+<div class="modal" id="account">
+    <div class="modal-content">
+        <button class="close" onclick="closeModal('account')">×</button>
+        <h2>👤 ساخت حساب کاربری</h2>
+        <input type="text" placeholder="نام کاربری">
+        <input type="email" placeholder="ایمیل">
+        <input type="password" placeholder="رمز عبور">
+        <button class="main-btn" onclick="alert('ثبت‌نام واقعی هنوز راه‌اندازی نشده است.')">ثبت‌نام</button>
+    </div>
+</div>
+
+<!-- CART MODAL -->
+
+<div class="modal" id="cart">
+    <div class="modal-content">
+        <button class="close" onclick="closeModal('cart')">×</button>
+        <h2>🛒 سبد خرید</h2>
+        <div id="cartItems">سبد خرید خالی است.</div>
+        <h3 id="total" style="margin-top:20px">مجموع: ۰ تومان</h3>
+        <button class="main-btn" onclick="alert('درگاه پرداخت هنوز متصل نشده است.')">تسویه حساب</button>
+    </div>
+</div>
+
+<script>
+
+// MENU
+
+function toggleMenu() {
+    document.getElementById('drawer').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+}
+
+// THEME
+
+function toggleTheme() {
+    document.body.classList.toggle('light');
+
+    const light = document.body.classList.contains('light');
+
+    document.getElementById('themeButton').textContent =
+        light ? '🌙' : '☀️';
+
+    localStorage.setItem('gameCenterTheme', light ? 'light' : 'dark');
+}
+
+if (localStorage.getItem('gameCenterTheme') === 'light') {
+    document.body.classList.add('light');
+    document.getElementById('themeButton').textContent = '🌙';
+}
+
+// MODALS
+
+function openModal(id) {
+    document.getElementById(id).classList.add('show');
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+}
+
+// CART
+
+let cart = [];
+
+function addCart(name, price) {
+    cart.push({name, price});
+    updateCart();
+    alert('محصول به سبد خرید اضافه شد!');
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+function updateCart() {
+    document.getElementById('cartCount').textContent = cart.length;
+
+    let total = 0;
+    const items = document.getElementById('cartItems');
+
+    if (!cart.length) {
+        items.textContent = 'سبد خرید خالی است.';
+    } else {
+        items.innerHTML = cart.map((item, index) => {
+            total += item.price;
+
+            return `
+                <div class="cart-row">
+                    ${item.name}
+                    <br>
+                    ${item.price.toLocaleString('fa-IR')} تومان
+                    <button onclick="removeItem(${index})">حذف</button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    document.getElementById('total').textContent =
+        'مجموع: ' + total.toLocaleString('fa-IR') + ' تومان';
+}
+
+// SEARCH
+
+function searchProducts() {
+    const query = document.getElementById('searchInput')
+        .value.trim().toLowerCase();
+
+    document.querySelectorAll('.searchable').forEach(product => {
+        product.style.display =
+            product.textContent.toLowerCase().includes(query) ? '' : 'none';
+    });
+}
+
+// SLIDER
+
+const track = document.getElementById('sliderTrack');
+const container = document.getElementById('sliderContainer');
+const cards = Array.from(track.children);
+const dotsContainer = document.getElementById('dots');
+
+let slideIndex = 0;
+let slideTimer;
+
+function getVisibleCards() {
+    if (window.innerWidth <= 480) return 1;
+    if (window.innerWidth <= 750) return 2;
+    return 3;
+}
+
+function getMaxIndex() {
+    return Math.max(0, cards.length - getVisibleCards());
+}
+
+function createDots() {
+    dotsContainer.innerHTML = '';
+
+    for (let i = 0; i <= getMaxIndex(); i++) {
+        const dot = document.createElement('span');
+        dot.className = 'dot' + (i === slideIndex ? ' active' : '');
+        dot.onclick = () => {
+            slideIndex = i;
+            showSlide();
+            restartTimer();
+        };
+        dotsContainer.appendChild(dot);
+    }
+}
+
+function showSlide() {
+    slideIndex = Math.min(slideIndex, getMaxIndex());
+
+    const cardWidth = cards[0].getBoundingClientRect().width;
+    const gap = 18;
+
+    const offset = slideIndex * (cardWidth + gap);
+
+    track.style.transform = `translateX(${offset}px)`;
+
+    createDots();
+}
+
+function moveSlide(direction) {
+    const max = getMaxIndex();
+
+    slideIndex += direction;
+
+    if (slideIndex > max) slideIndex = 0;
+    if (slideIndex < 0) slideIndex = max;
+
+    showSlide();
+    restartTimer();
+}
+
+function startTimer() {
+    slideTimer = setInterval(() => moveSlide(1), 4000);
+}
+
+function restartTimer() {
+    clearInterval(slideTimer);
+    startTimer();
+}
+
+window.addEventListener('resize', showSlide);
+
+container.addEventListener('mouseenter', () => clearInterval(slideTimer));
+container.addEventListener('mouseleave', startTimer);
+
+showSlide();
+startTimer();
+
+// KEYBOARD ESCAPE
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        document.getElementById('drawer').classList.remove('open');
+        document.getElementById('overlay').classList.remove('open');
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.classList.remove('show');
+        });
+    }
+});
+
+</script>
+
+</body>
+</html>
